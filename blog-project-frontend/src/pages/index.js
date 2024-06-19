@@ -1,7 +1,13 @@
-import React from "react";
+import Link from "next/link";
 
-function index(props) {
-	return <div>سلام</div>;
-}
+const Home = () => {
+	return (
+		<div>
+			<h1>Blog App Next</h1>
+			<p>WellCome Home...</p>
+			<Link href={"/blogs"}>Go to Blogs Page ?</Link>
+		</div>
+	);
+};
 
-export default index;
+export default Home;
