@@ -1,10 +1,11 @@
+import queryString from "query-string";
 import DesktopCategory from "@/components/categories/DesktopCategory";
 import MobileCategory from "@/components/categories/MobileCategory";
 import PostsList from "@/components/postsList/PostsList";
 import http from "@/services/httpService";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 
-const CategoryPage = ({ allCategoties, filteredPosts }) => {
+const CategoryPage = ({ allCategoties, filteredPosts, params }) => {
 	return (
 		<div className="bg-gray-100">
 			<div className="container mx-auto lg:max-w-screen-lg">
@@ -12,10 +13,16 @@ const CategoryPage = ({ allCategoties, filteredPosts }) => {
 					{/* filter category section Desktop */}
 					<div className="hidden md:block md:col-span-3 row-span-2">
 						{/* filter category box for Desktop */}
-						<DesktopCategory categories={allCategoties} />
+						<DesktopCategory
+							categories={allCategoties}
+							selectedCategory={params.categorySlug}
+						/>
 					</div>
 					{/* filter category section Mobile */}
-					<MobileCategory categories={allCategoties} />
+					<MobileCategory
+						categories={allCategoties}
+						selectedCategory={params.categorySlug}
+					/>
 					{/* sort section */}
 					<div className="hidden md:block col-span-9 row-span-1">
 						{/* sort box */}
@@ -51,16 +58,16 @@ const CategoryPage = ({ allCategoties, filteredPosts }) => {
 
 export default CategoryPage;
 
-export async function getServerSideProps({ query }) {
-	const { data: posts } = await http.get(
-		`/posts?categorySlug=${query.categorySlug}`,
-	);
+export async function getServerSideProps({ query, params }) {
+	const stringifiedQuery = queryString.stringify(query);
+	const { data: posts } = await http.get(`/posts?${stringifiedQuery}`);
 	const { data: categories } = await http.get("/post-category");
 
 	return {
 		props: {
 			filteredPosts: posts.data,
 			allCategoties: categories.data,
+			params,
 		},
 	};
 }

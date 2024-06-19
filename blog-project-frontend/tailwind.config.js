@@ -21,6 +21,7 @@ module.exports = {
 			xs: "0.75rem",
 			xxs: "0.7rem",
 			xxxs: "0.6rem",
+			md: "0.9rem",
 		},
 	},
 	plugins: [

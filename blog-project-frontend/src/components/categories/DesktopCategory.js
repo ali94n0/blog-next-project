@@ -2,8 +2,9 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useState } from "react";
 
-const DesktopCategory = ({ categories }) => {
+const DesktopCategory = ({ categories, selectedCategory = "" }) => {
 	const [isCategoryOpen, setIsCategoryOpen] = useState(true);
+
 	return (
 		<div className="bg-white rounded-xl overflow-hidden">
 			{/* filter category header */}
@@ -25,7 +26,13 @@ const DesktopCategory = ({ categories }) => {
 				}`}
 			>
 				<Link href={"/blogs"}>
-					<a className="p-3 hover:bg-purple-50 cursor-pointer">همه مقالات</a>
+					<a
+						className={`p-3 hover:bg-purple-50 cursor-pointer transition-all duration-200 ease-in ${
+							selectedCategory === "" ? "bg-purple-50" : ""
+						} `}
+					>
+						همه مقالات
+					</a>
 				</Link>
 				{categories.map((category) => {
 					return (
@@ -33,7 +40,13 @@ const DesktopCategory = ({ categories }) => {
 							href={`/blogs/${category.englishTitle}`}
 							key={category._id}
 						>
-							<a className="p-3 hover:bg-purple-50 cursor-pointer">
+							<a
+								className={`p-3 hover:bg-purple-50 cursor-pointer transition-all duration-200 ease-in ${
+									selectedCategory === category.englishTitle
+										? "bg-purple-50"
+										: ""
+								} `}
+							>
 								{category.title}
 							</a>
 						</Link>
