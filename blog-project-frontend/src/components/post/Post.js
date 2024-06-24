@@ -6,6 +6,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { toPersionNumber } from "src/utils/toPersionNumber";
+import Interaction from "../modules/Interactions";
 
 const Post = ({ post }) => {
 	return (
@@ -46,20 +47,10 @@ const Post = ({ post }) => {
 						</Link>
 					</div>
 					<div className="flex items-center justify-between">
-						<div className="flex items-center gap-x-1">
-							<span className="bg-gray-200 text-gray-400 text-xxxs px-1 py-0.5 rounded-md flex items-center justify-between cursor-pointer">
-								<ChatBubbleBottomCenterTextIcon className="w-3 h-3 stroke-gray-400" />
-								{post.commentsCount}
-							</span>
-							<span className="bg-red-200 text-red-400 text-xxxs px-1 py-0.5 rounded-md flex items-center justify-between cursor-pointer">
-								<HeartIcon className="w-3 h-3 stroke-red-400" />
-								<span>{post.likesCount}</span>
-							</span>
-							<span className="bg-blue-200 text-blue-400 text-xxxs px-1 py-0.5 rounded-md flex items-center justify-between cursor-pointer">
-								<BookmarkIcon className="w-3 h-3 stroke-blue-400" />
-								{post.likesCount}
-							</span>
-						</div>
+						<Interaction
+							isSmall={true}
+							post={post}
+						/>
 						<span className="text-gray-400 text-xxxs flex items-center whitespace-nowrap gap-x-1 ">
 							<ClockIcon className="w-3 h-3 stroke-gray-400" />
 							{`زمان مطالعه: ${toPersionNumber(post.readingTime)} دقیقه`}
