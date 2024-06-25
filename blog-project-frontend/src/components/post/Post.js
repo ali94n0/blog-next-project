@@ -8,7 +8,7 @@ import Link from "next/link";
 import { toPersionNumber } from "src/utils/toPersionNumber";
 import Interaction from "../modules/Interactions";
 
-const Post = ({ post }) => {
+const Post = ({ post, isRelated }) => {
 	return (
 		<div className="flex flex-col bg-white col-span-6 md:col-span-3 lg:col-span-2 rounded-xl p-2 max-h-[500px] md:max-h-[350px]">
 			{/* post image */}
@@ -46,16 +46,18 @@ const Post = ({ post }) => {
 							</a>
 						</Link>
 					</div>
-					<div className="flex items-center justify-between">
-						<Interaction
-							isSmall={true}
-							post={post}
-						/>
-						<span className="text-gray-400 text-xxxs flex items-center whitespace-nowrap gap-x-1 ">
-							<ClockIcon className="w-3 h-3 stroke-gray-400" />
-							{`زمان مطالعه: ${toPersionNumber(post.readingTime)} دقیقه`}
-						</span>
-					</div>
+					{!isRelated && (
+						<div className="flex items-center justify-between">
+							<Interaction
+								isSmall={true}
+								post={post}
+							/>
+							<span className="text-gray-400 text-xxxs flex items-center whitespace-nowrap gap-x-1 ">
+								<ClockIcon className="w-3 h-3 stroke-gray-400" />
+								{`زمان مطالعه: ${toPersionNumber(post.readingTime)} دقیقه`}
+							</span>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>
