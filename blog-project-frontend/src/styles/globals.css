@@ -9,7 +9,14 @@ body {
   padding: 0;
   margin: 0;
   font-family: "iranyekan";
+  --tw-bg-opacity: 1;
+    background-color: rgba(243 244 246 / var(--tw-bg-opacity));
+  
 }
+ /* #__next{
+    --tw-bg-opacity: 1;
+      background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+ } */
 
 a {
   color: inherit;
