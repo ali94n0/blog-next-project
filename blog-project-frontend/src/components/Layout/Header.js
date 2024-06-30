@@ -9,7 +9,7 @@ const Header = () => {
 	useEffect(() => {
 		dispatch({ type: "USERAUTH" });
 	}, []);
-	console.log(state);
+
 	return (
 		<div className="flex sticky bg-white items-center  py-1 shadow-[0px_0px_60px_0px_rgba(0,0,0,0.15)] px-1 py-0.5 md:px-2 md:py-1 h-[40px] md:h-[55px] mb-4 md:mb-10">
 			<div className="container max-w-screen-lg mx-auto">
@@ -28,18 +28,23 @@ const Header = () => {
 					</div>
 					<div
 						className={`flex items-center gap-x-2 md:gap-x-4 text-sm md:text-base ${
-							state.user ? "" : "opacity-30 blur-sm"
+							state.loading ? "opacity-30 blur-sm" : ""
 						}`}
 					>
 						{state.user ? (
 							<>
 								<Link href="/dashboard">
-									<a className="flex items-center gap-x-2 text-gray-500 px-1 py-0.5 md:px-2 md:py-1 cursor-pointer font-bold  hover:border-b-2 hover:border-purple-600 hover:text-purple-600  text-gray-700">
-										<UserIcon className="w-6 h-6 fill-current " />
+									<a className="flex items-center gap-x-1 md:gap-x-2 text-gray-500 px-1 py-0.5 md:px-2 md:py-1 cursor-pointer font-bold  hover:border-b-2 hover:border-purple-600 hover:text-purple-600  text-gray-700">
+										<UserIcon className="w-4 h-4 md:w-6 md:h-6 fill-current " />
 										<span>پروفایل</span>
 									</a>
 								</Link>
-								<button className="rounded-lg px-1 py-0.5 md:px-2 md:py-1 cursor-pointer font-bold  hover:border-b-2 hover:text-red-50 hover:bg-red-500  text-red-600">
+								<button
+									className="rounded-lg px-1 py-0.5 md:px-2 md:py-1 cursor-pointer font-bold  hover:border-b-2 hover:text-red-50 hover:bg-red-500  text-red-600"
+									onClick={() =>
+										dispatch({ type: "SIGNOUT", payload: state.user })
+									}
+								>
 									خروج
 								</button>
 							</>

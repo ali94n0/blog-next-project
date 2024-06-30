@@ -41,13 +41,7 @@ const authReducer = (state, action) => {
 				user: null,
 				error: action.payload,
 			};
-		case LOGOUT:
-			return {
-				...state,
-				loading: false,
-				user: null,
-				error: null,
-			};
+
 		default:
 			return state;
 	}
@@ -63,7 +57,7 @@ const asyncActionHandlers = {
 					withCredentials: true,
 				})
 				.then((res) => {
-					toast.success("خوش امدید");
+					toast.success(`خوش امدی ${res.data.name}`);
 					Router.replace("/dashboard");
 					dispatch({ type: AUTH_SUCCESS, payload: res.data });
 				})
@@ -103,6 +97,24 @@ const asyncActionHandlers = {
 				})
 				.catch((err) => {
 					dispatch({ type: AUTH_FAILURE, error: err });
+				});
+		},
+	SIGNOUT:
+		({ dispatch }) =>
+		async (action) => {
+			dispatch({ type: AUTH_REQUEST });
+			axios
+				.get("http://localhost:5000/api/user/logout", {
+					withCredentials: true,
+				})
+				.then((res) => {
+					console.log(res);
+					toast.success(`خدانگهدار ${action.payload.name}`);
+					Router.push("/");
+				})
+				.catch((err) => {
+					dispatch({ type: AUTH_FAILURE, error: err });
+					toast.error(err?.response?.data?.message);
 				});
 		},
 };

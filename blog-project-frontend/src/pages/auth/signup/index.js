@@ -3,15 +3,18 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Input from "@/components/modules/Input";
-import toast from "react-hot-toast";
-import { useRouter } from "next/router";
-import axios from "axios";
+import Router from "next/router";
 import { useAuth, useAuthDispatch } from "src/contexts/AuthContext";
 import Loader from "@/components/modules/Loader";
 
 const SignupForm = () => {
 	const { state } = useAuth();
 	const { dispatch } = useAuthDispatch();
+
+	useEffect(() => {
+		if (state.user) Router.push("/dashboard");
+	}, [state.user]);
+
 	const onSubmit = (values) => {
 		const { confirmPassword, ...dataToSend } = values;
 		dispatch({ type: "SIGNUP", payload: dataToSend });
