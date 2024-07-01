@@ -10,7 +10,7 @@ import Interaction from "../modules/Interactions";
 
 const Post = ({ post, isRelated }) => {
 	return (
-		<div className="flex flex-col bg-white col-span-6 md:col-span-3 lg:col-span-2 rounded-xl p-2 max-h-[500px] md:max-h-[350px]">
+		<div className="flex flex-col bg-white col-span-6 md:col-span-3 lg:col-span-2 rounded-xl p-2 max-h-[500px] md:max-h-[350px] ">
 			{/* post image */}
 			<div className=" aspect-w-16 aspect-h-9 rounded-xl overflow-hidden mb-4">
 				<Link href={`/posts/${post.hashId}/${post.slug}`}>

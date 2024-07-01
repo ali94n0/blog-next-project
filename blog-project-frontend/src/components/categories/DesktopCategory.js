@@ -6,7 +6,7 @@ const DesktopCategory = ({ categories, selectedCategory = "" }) => {
 	const [isCategoryOpen, setIsCategoryOpen] = useState(true);
 
 	return (
-		<div className="bg-white rounded-xl overflow-hidden">
+		<div className="bg-white rounded-xl overflow-hidden sticky top-20 right-0">
 			{/* filter category header */}
 			<div
 				className="flex items-center justify-between px-2 py-3 bg-purple-200 text-lg text-purple-800 cursor-pointer"
@@ -28,7 +28,9 @@ const DesktopCategory = ({ categories, selectedCategory = "" }) => {
 				<Link href={"/blogs"}>
 					<a
 						className={`p-3 hover:bg-purple-50 cursor-pointer transition-all duration-200 ease-in ${
-							selectedCategory === "" ? "bg-purple-50" : ""
+							selectedCategory === ""
+								? "bg-purple-50 border-r-2 border-purple-500"
+								: ""
 						} `}
 					>
 						همه مقالات
@@ -43,7 +45,7 @@ const DesktopCategory = ({ categories, selectedCategory = "" }) => {
 							<a
 								className={`p-3 hover:bg-purple-50 cursor-pointer transition-all duration-200 ease-in ${
 									selectedCategory === category.englishTitle
-										? "bg-purple-50"
+										? "bg-purple-50 border-r-2 border-purple-500"
 										: ""
 								} `}
 							>

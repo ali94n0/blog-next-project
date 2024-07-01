@@ -4,7 +4,7 @@ import CommentForm from "./CommentForm";
 import toPersionDate from "src/utils/toPersionDate";
 import ReplyComments from "./ReplyComments";
 
-const SingleComment = ({ comment, comments }) => {
+const SingleComment = ({ comment, comments, post }) => {
 	const [isReply, setIsReply] = useState(false);
 	// console.log(comments, "single");
 	return (
@@ -34,6 +34,8 @@ const SingleComment = ({ comment, comments }) => {
 						<CommentForm
 							setIsReply={setIsReply}
 							isInComment={true}
+							post={post}
+							responseTo={comment._id}
 						/>
 					) : (
 						<button
@@ -46,6 +48,7 @@ const SingleComment = ({ comment, comments }) => {
 			<ReplyComments
 				comments={comments}
 				commentId={comment._id}
+				post={post}
 			/>
 		</React.Fragment>
 	);

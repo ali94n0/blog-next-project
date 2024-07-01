@@ -11,7 +11,7 @@ const Header = () => {
 	}, []);
 
 	return (
-		<div className="flex sticky bg-white items-center  py-1 shadow-[0px_0px_60px_0px_rgba(0,0,0,0.15)] px-1 py-0.5 md:px-2 md:py-1 h-[40px] md:h-[55px] mb-4 md:mb-10">
+		<div className="flex sticky top-0 z-10 bg-white items-center  py-1 shadow-[0px_0px_60px_0px_rgba(0,0,0,0.15)] px-1 py-0.5 md:px-2 md:py-1 h-[40px] md:h-[55px] mb-4 md:mb-10">
 			<div className="container max-w-screen-lg mx-auto">
 				<nav className="flex items-center justify-between px-2">
 					<div className="flex items-center gap-x-2 md:gap-x-4 text-sm md:text-base">

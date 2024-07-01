@@ -14,11 +14,16 @@ const CommentsList = ({ postData }) => {
 							key={index}
 							comment={comment}
 							comments={postData.comments}
+							post={postData}
 						/>
 					)
 				);
 			})}
-			<CommentForm isInComment={false} />
+			<CommentForm
+				isInComment={false}
+				post={postData}
+				responseTo={null}
+			/>
 		</React.Fragment>
 	);
 };

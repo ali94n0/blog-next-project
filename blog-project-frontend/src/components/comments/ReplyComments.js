@@ -1,6 +1,6 @@
 import SingleComment from "./SingleComment";
 
-const ReplyComments = ({ comments, commentId }) => {
+const ReplyComments = ({ comments, commentId, post }) => {
 	return comments.map((comment) => {
 		return (
 			comment.responseTo === commentId && (
@@ -8,6 +8,8 @@ const ReplyComments = ({ comments, commentId }) => {
 					<SingleComment
 						comment={comment}
 						comments={comments}
+						responseTo={commentId}
+						post={post}
 					/>
 				</div>
 			)

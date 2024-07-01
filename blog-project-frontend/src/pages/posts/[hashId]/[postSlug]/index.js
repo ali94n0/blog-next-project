@@ -5,6 +5,7 @@ import {
 	DocumentDuplicateIcon,
 	LinkIcon,
 } from "@heroicons/react/24/outline";
+import { BookmarkIcon as SolidBookmark } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { toPersionNumber } from "src/utils/toPersionNumber";
 import { FaLinkedin, FaTelegram, FaTwitter } from "react-icons/fa";
@@ -13,13 +14,28 @@ import { useState } from "react";
 import PostsList from "@/components/postsList/PostsList";
 import CommentsList from "@/components/comments/CommentsList";
 import toPersionDate from "src/utils/toPersionDate";
+import { useRouter } from "next/router";
+import toast from "react-hot-toast";
+import pushRouter from "src/utils/pushRouter";
 
 const postDetailsPage = ({ postData }) => {
-	console.log(postData, "page");
+	const router = useRouter();
+
 	const [isCopied, setIsCopied] = useState(false);
+	const handleBookmark = (id) => {
+		http
+			.put(`/posts/bookmark/${id}`)
+			.then(({ data }) => {
+				toast.success(data.message);
+				pushRouter(router);
+			})
+			.catch((err) => {
+				toast.error(err?.response?.data?.message);
+			});
+	};
 
 	return (
-		<div className="bg-gray-50">
+		<div className="bg-gray-100">
 			<div className="container max-w-screen-sm  md:max-w-screen-lg mx-auto">
 				<div className="px-2 md:px-4">
 					<header className="flex items-center justify-between p-2  mb-12">
@@ -53,15 +69,22 @@ const postDetailsPage = ({ postData }) => {
 							</div>
 						</div>
 						{/* post actions */}
-						<div className="flex items-start gap-x-2 md:gap-x-4">
+						<button
+							onClick={() => handleBookmark(postData._id)}
+							className="flex items-start gap-x-2 md:gap-x-4"
+						>
 							<span className="cursor-pointer flex items-center py-1">
 								<LinkIcon className="w-4 h-4 md:w-6 md:h-6 stroke-gray-400 stroke-2 hover:stroke-gray-500" />
 							</span>
 							<span className="text-xs md:text-sm cursor-pointer text-gray-400 flex items-center gap-x-1 md:gap-x-2 border border-gray-400 p-1 md:px-2 md:py-1 rounded-2xl hover:border-gray-500 hover:text-gray-500 ">
 								ذخیره
-								<BookmarkIcon className="w-4 h-4 md:w-6 md:h-6 stroke-current stroke-2 " />
+								{postData.isBookmarked ? (
+									<SolidBookmark className="w-4 h-4 md:w-6 md:h-6  stroke-2  fill-current " />
+								) : (
+									<BookmarkIcon className="w-4 h-4 md:w-6 md:h-6  stroke-2  stroke-current" />
+								)}
 							</span>
-						</div>
+						</button>
 					</header>
 					<main className="flex flex-col px-4">
 						<article className="prose md:prose-lg prose-slate prose-p:text-slate-600 prose-p:leading-8 prose-p:text-md md:prose-p:text-base prose-a:text-blue-700 prose-img:rounded-lg prose-code:text-slate-400 prose-pre:text-yellow-300 prose-pre:bg-slate-700 prose-h1:font-black prose-h1:text-3xl prose-h2:font-bold prose-h2:text-2xl px-2 md:px-4 mb-8 mx-auto">
@@ -208,8 +231,12 @@ const postDetailsPage = ({ postData }) => {
 
 export default postDetailsPage;
 
-export async function getServerSideProps({ params }) {
-	const { data } = await http.get(`/posts/${params.postSlug}`);
+export async function getServerSideProps({ params, req }) {
+	const { data } = await http.get(`/posts/${params.postSlug}`, {
+		headers: {
+			cookie: req.headers.cookie,
+		},
+	});
 
 	return {
 		props: {

@@ -1,7 +1,7 @@
 // AuthContext.js
-import axios from "axios";
+import http from "@/services/httpService";
 import Router from "next/router";
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext } from "react";
 import toast from "react-hot-toast";
 import { useReducerAsync } from "use-reducer-async";
 
@@ -16,7 +16,6 @@ const initialState = {
 const AUTH_REQUEST = "AUTH_REQUEST";
 const AUTH_SUCCESS = "AUTH_SUCCESS";
 const AUTH_FAILURE = "AUTH_FAILURE";
-const LOGOUT = "LOGOUT";
 
 // Reducer function
 const authReducer = (state, action) => {
@@ -52,10 +51,8 @@ const asyncActionHandlers = {
 		({ dispatch }) =>
 		async (action) => {
 			dispatch({ type: AUTH_REQUEST });
-			axios
-				.post("http://localhost:5000/api/user/signin", action.payload, {
-					withCredentials: true,
-				})
+			http
+				.post("/user/signin", action.payload)
 				.then((res) => {
 					toast.success(`خوش امدی ${res.data.name}`);
 					Router.replace("/dashboard");
@@ -70,10 +67,8 @@ const asyncActionHandlers = {
 		({ dispatch }) =>
 		async (action) => {
 			dispatch({ type: AUTH_REQUEST });
-			axios
-				.post("http://localhost:5000/api/user/signup", action.payload, {
-					withCredentials: true,
-				})
+			http
+				.post("/user/signup", action.payload)
 				.then((res) => {
 					toast.success("ثبتنام با موفقیت انجام شد");
 					Router.push("/auth/signin");
@@ -88,10 +83,8 @@ const asyncActionHandlers = {
 		({ dispatch }) =>
 		async (action) => {
 			dispatch({ type: AUTH_REQUEST });
-			axios
-				.get("http://localhost:5000/api/user/load", {
-					withCredentials: true,
-				})
+			http
+				.get("/user/load")
 				.then((res) => {
 					dispatch({ type: AUTH_SUCCESS, payload: res.data });
 				})
@@ -103,14 +96,12 @@ const asyncActionHandlers = {
 		({ dispatch }) =>
 		async (action) => {
 			dispatch({ type: AUTH_REQUEST });
-			axios
-				.get("http://localhost:5000/api/user/logout", {
-					withCredentials: true,
-				})
+			http
+				.get("/user/logout")
 				.then((res) => {
-					console.log(res);
-					toast.success(`خدانگهدار ${action.payload.name}`);
 					Router.push("/");
+					dispatch({ type: AUTH_SUCCESS, payload: null });
+					toast.success(`خدانگهدار ${action.payload.name}`);
 				})
 				.catch((err) => {
 					dispatch({ type: AUTH_FAILURE, error: err });
