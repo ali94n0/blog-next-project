@@ -4,20 +4,22 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Input from "@/components/modules/Input";
 
-import { useAuth, useAuthDispatch } from "src/contexts/AuthContext";
 import Loader from "@/components/modules/Loader";
 import Router from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { signIn } from "src/reduxToolkit/slices/authSlice";
+import Link from "next/link";
 
 const LoginForm = () => {
-	const { state } = useAuth();
-	const { dispatch } = useAuthDispatch();
+	const { loading, user } = useSelector((state) => state.auth);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (state.user) Router.push("/dashboard");
-	}, [state.user]);
+		if (user) Router.push("/dashboard");
+	}, [user]);
 
 	const onSubmit = (values) => {
-		dispatch({ type: "SIGNIN", payload: values });
+		dispatch(signIn(values));
 	};
 
 	const formik = useFormik({
@@ -61,7 +63,7 @@ const LoginForm = () => {
 						placeholder="رمز عبور خود را وارد کنید"
 						formik={formik}
 					/>
-					{state.loading ? (
+					{loading ? (
 						<Loader />
 					) : (
 						<button
@@ -72,6 +74,14 @@ const LoginForm = () => {
 							ورود
 						</button>
 					)}
+					<div className="p-2">
+						<p className="text-xs md:text-sm text-gray-600">
+							هنوز ثبت نام نکردید؟{" "}
+							<Link href="/auth/signup">
+								<a className="text-purple-500">ثبت نام کنید</a>
+							</Link>
+						</p>
+					</div>
 				</form>
 			</div>
 		</div>

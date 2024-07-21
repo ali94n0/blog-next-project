@@ -1,13 +1,14 @@
 import { UserIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { useEffect } from "react";
-import { useAuth, useAuthDispatch } from "src/contexts/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { signOut, userAuth } from "src/reduxToolkit/slices/authSlice";
 
 const Header = () => {
-	const { state } = useAuth();
-	const { dispatch } = useAuthDispatch();
+	const { loading, user } = useSelector((state) => state.auth);
+	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch({ type: "USERAUTH" });
+		dispatch(userAuth());
 	}, []);
 
 	return (
@@ -28,10 +29,10 @@ const Header = () => {
 					</div>
 					<div
 						className={`flex items-center gap-x-2 md:gap-x-4 text-sm md:text-base ${
-							state.loading ? "opacity-30 blur-sm" : ""
+							loading ? "opacity-30 blur-sm" : ""
 						}`}
 					>
-						{state.user ? (
+						{user ? (
 							<>
 								<Link href="/dashboard">
 									<a className="flex items-center gap-x-1 md:gap-x-2 text-gray-500 px-1 py-0.5 md:px-2 md:py-1 cursor-pointer font-bold  hover:border-b-2 hover:border-purple-600 hover:text-purple-600  text-gray-700">
@@ -41,9 +42,7 @@ const Header = () => {
 								</Link>
 								<button
 									className="rounded-lg px-1 py-0.5 md:px-2 md:py-1 cursor-pointer font-bold  hover:border-b-2 hover:text-red-50 hover:bg-red-500  text-red-600"
-									onClick={() =>
-										dispatch({ type: "SIGNOUT", payload: state.user })
-									}
+									onClick={() => dispatch(signOut(user))}
 								>
 									خروج
 								</button>

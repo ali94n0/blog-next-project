@@ -6,6 +6,7 @@ const ReplyComments = ({ comments, commentId, post }) => {
 			comment.responseTo === commentId && (
 				<div className="pr-6 -mt-2">
 					<SingleComment
+						key={comment._id}
 						comment={comment}
 						comments={comments}
 						responseTo={commentId}

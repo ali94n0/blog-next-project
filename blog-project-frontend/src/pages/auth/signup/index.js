@@ -4,20 +4,23 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Input from "@/components/modules/Input";
 import Router from "next/router";
-import { useAuth, useAuthDispatch } from "src/contexts/AuthContext";
+
 import Loader from "@/components/modules/Loader";
+import { useDispatch, useSelector } from "react-redux";
+import { signUp } from "src/reduxToolkit/slices/authSlice";
+import Link from "next/link";
 
 const SignupForm = () => {
-	const { state } = useAuth();
-	const { dispatch } = useAuthDispatch();
+	const { user, loading } = useSelector((state) => state.auth);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (state.user) Router.push("/dashboard");
-	}, [state.user]);
+		if (user) Router.push("/dashboard");
+	}, [user]);
 
 	const onSubmit = (values) => {
 		const { confirmPassword, ...dataToSend } = values;
-		dispatch({ type: "SIGNUP", payload: dataToSend });
+		dispatch(signUp(dataToSend));
 	};
 
 	const formik = useFormik({
@@ -97,7 +100,7 @@ const SignupForm = () => {
 						formik={formik}
 					/>
 
-					{state.loading ? (
+					{loading ? (
 						<Loader />
 					) : (
 						<button
@@ -108,6 +111,14 @@ const SignupForm = () => {
 							ثبتنام
 						</button>
 					)}
+					<div className="p-2">
+						<p className="text-xs md:text-sm text-gray-600">
+							ثبت نام کردید؟{" "}
+							<Link href="/auth/signin">
+								<a className="text-purple-500">ورود</a>
+							</Link>
+						</p>
+					</div>
 				</form>
 			</div>
 		</div>

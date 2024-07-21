@@ -52,7 +52,7 @@ const Interaction = ({ post, isSmall }) => {
 			</span>
 			<button
 				onClick={() => handleLike(post._id)}
-				className={`bg-red-100 text-red-400 hover:text-red-100 hover:bg-red-400   rounded-md flex items-center justify-between cursor-pointer ${spanSize} `}
+				className={`bg-red-100 text-red-400 hover:text-red-100 hover:bg-red-400   rounded-md flex items-center justify-between cursor-pointer ${spanSize} z-10`}
 			>
 				{post.isLiked ? (
 					<SolidHeart className={` ${iconSize} fill-current`} />
@@ -63,7 +63,7 @@ const Interaction = ({ post, isSmall }) => {
 			</button>
 			<button
 				onClick={() => handleBookmark(post._id)}
-				className={`bg-blue-100 text-blue-400 hover:text-blue-100 hover:bg-blue-400   rounded-md flex items-center justify-between cursor-pointer ${spanSize} `}
+				className={`bg-blue-100 text-blue-400 hover:text-blue-100 hover:bg-blue-400   rounded-md flex items-center justify-between cursor-pointer ${spanSize} z-10`}
 			>
 				{post.isBookmarked ? (
 					<SolidBookmark className={` ${iconSize} fill-current`} />

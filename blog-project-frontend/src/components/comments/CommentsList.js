@@ -6,12 +6,12 @@ import CommentForm from "./CommentForm";
 const CommentsList = ({ postData }) => {
 	return (
 		<React.Fragment>
-			{postData.comments.map((comment, index) => {
+			{postData.comments.map((comment) => {
 				return (
 					!comment.responseTo &&
 					comment.status === 2 && (
 						<SingleComment
-							key={index}
+							key={comment._id}
 							comment={comment}
 							comments={postData.comments}
 							post={postData}

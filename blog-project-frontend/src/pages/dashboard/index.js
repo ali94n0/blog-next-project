@@ -1,11 +1,9 @@
 import Router from "next/router";
 import { useEffect } from "react";
-import { useAuth } from "src/contexts/AuthContext";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
-	const {
-		state: { user },
-	} = useAuth();
+	const { user } = useSelector((state) => state.auth);
 
 	useEffect(() => {
 		if (!user) Router.push("/auth/signin");
